@@ -1,0 +1,36 @@
+{
+  "name": "desktop-app",
+  "version": "1.0.0",
+  "description": "electron desktop app",
+  "main": "src/main/index.js",
+  "scripts": {
+    "test": "test",
+    "start": "electron ./src/main/",
+    "dev": "npx electronmon --trace-warnings .",
+    "build": "webpack --config webpack.config.js"
+  },
+  "keywords": [
+    "electron",
+    "react",
+    "javascript"
+  ],
+  "author": "huzaifa",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.26.0",
+    "@babel/preset-env": "^7.26.0",
+    "@babel/preset-react": "^7.25.9",
+    "babel-loader": "^9.2.1",
+    "electron": "33.2.1",
+    "electron-rebuild": "^3.2.9",
+    "webpack": "^5.96.1",
+    "webpack-cli": "^5.1.4"
+  },
+  "dependencies": {
+    "electronmon": "2.0.3",
+    "knex": "^3.1.0",
+    "react-router-dom": "^7.0.1",
+    "sqlite3": "^5.1.7",
+    "webpack-merge": "^6.0.1"
+  }
+}
