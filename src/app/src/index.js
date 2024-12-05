@@ -8,6 +8,8 @@ import Home from "./components/Home";
 import Navbar from "./components/Navbar";
 import AllUsers from "./components/AllUsers";
 import CreateUser from "./components/CreateUser";
+import UserDetails from "./components/UserDetails";
+import Modal from "./components/Modal";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
@@ -18,6 +20,8 @@ root.render(
         <Route path="/" element={<Home />}></Route>
         <Route path="/allusers" element={<AllUsers />}></Route>
         <Route path="/createUser" element={<CreateUser />}></Route>
+        <Route path="/userDetails" element={<UserDetails />}></Route>
+        <Route path="/modal" element={<Modal />}></Route>
       </Routes>
       <App />
     </BrowserRouter>

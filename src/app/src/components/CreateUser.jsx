@@ -1,15 +1,18 @@
 import React, { useState } from "react";
+import { createUser } from "../apis/user";
 
 const CreateUser = () => {
   const [formData, setFormData] = useState({
     name: "",
-    phoneNo: "",
+    cnic: "",
+    phone_no: "",
     plate_no: "",
     address: "",
     payment: "",
   });
-  const handleSubmit = () => {
-    console.log(formData);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    createUser(formData);
   };
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -30,20 +33,33 @@ const CreateUser = () => {
             name="name"
             onChange={handleChange}
             value={formData.name}
-            className="input input-bordered w-full max-w-4xl"
+            className="input input-bordered w-full max-w-4xl rounded-full"
+            required
+          />{" "}
+          <label className="block p-2 text-white font-medium " htmlFor="phone">
+            cnic{" "}
+          </label>
+          <input
+            type="number"
+            placeholder="cnic"
+            id="cnic"
+            name="cnic"
+            onChange={handleChange}
+            value={formData.cnic}
+            className="input input-bordered w-full max-w-4xl rounded-full"
             required
           />{" "}
           <label className="block p-2 text-white font-medium " htmlFor="phone">
             Phone{" "}
           </label>
           <input
-            type="text"
-            placeholder="name"
-            id="name"
-            name="name"
+            type="number"
+            placeholder="phone"
+            id="phone_no"
+            name="phone_no"
             onChange={handleChange}
-            value={formData.name}
-            className="input input-bordered w-full max-w-4xl"
+            value={formData.phone_no}
+            className="input input-bordered w-full max-w-4xl rounded-full"
             required
           />{" "}
           <label
@@ -59,7 +75,7 @@ const CreateUser = () => {
             name="plate_no"
             onChange={handleChange}
             value={formData.plate_no}
-            className="input input-bordered w-full max-w-4xl"
+            className="input input-bordered w-full max-w-4xl rounded-full"
             required
           />{" "}
           <label
@@ -75,7 +91,7 @@ const CreateUser = () => {
             name="address"
             onChange={handleChange}
             value={formData.address}
-            className="input input-bordered w-full max-w-4xl"
+            className="input input-bordered w-full max-w-4xl rounded-full"
             required
           />{" "}
           <label className="block p-2 text-white font-medium " htmlFor="number">
@@ -88,9 +104,15 @@ const CreateUser = () => {
             name="payment"
             onChange={handleChange}
             value={formData.payment}
-            className="input input-bordered w-full max-w-4xl"
+            className="input input-bordered w-full max-w-4xl rounded-full"
             required
           />{" "}
+        </div>
+        <div className="flex justify-center">
+          {" "}
+          <button className="btn rounded-full" onClick={handleSubmit}>
+            SAVE
+          </button>
         </div>
       </form>
     </div>

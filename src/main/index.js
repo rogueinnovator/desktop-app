@@ -16,7 +16,7 @@ function createWindow() {
 
   win.setTitle("electron");
   win.loadURL("http://localhost:3000");
-  win.webContents.openDevTools();
+  // win.webContents.openDevTools();
 }
 
 app.whenReady().then(createWindow);
