@@ -1,92 +1,102 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-const SearchBar = ({ onSearch }) => {
-  // State to store user input for search fields
-  const [searchParams, setSearchParams] = useState({
-    id: '',
-    cnic: '',
-    name: ''
-  });
+const UserList = () => {
+  const [showModal, setShowModal] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(null); // User to delete
+  const users = [
+    { id: 1, name: "John Doe", cnic: "12345-6789012-3", created_at: "2024-01-01" },
+    { id: 2, name: "Jane Smith", cnic: "98765-4321098-7", created_at: "2024-02-01" },
+  ];
 
-  // Handle input change for each field (id, cnic, name)
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setSearchParams((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
+  const navigate = useNavigate();
+
+  const handleRowClick = (user) => {
+    navigate("/userDetails", { state: { user } });
   };
 
-  // Handle the form submission on Enter key press
-  const handleKeyPress = (e) => {
-    if (e.key === 'Enter') {
-      e.preventDefault(); // Prevent form submission
-      onSearch(searchParams);
+  const handleDeleteClick = (event, user) => {
+    event.stopPropagation();
+    setSelectedUser(user); // Set the user to be deleted
+    setShowModal(true); // Show the modal
+  };
+
+  const handleConfirmDelete = async () => {
+    if (selectedUser) {
+      console.log(`Deleting user with ID ${selectedUser.id}`);
+      // Call the delete API or function here
+      await deleteUser(selectedUser.id);
+      setShowModal(false); // Close the modal
     }
   };
 
-  return (
-    <div className="flex flex-col items-center">
-      <div className="mb-4">
-        <input
-          type="text"
-          name="id"
-          value={searchParams.id}
-          onChange={handleInputChange}
-          onKeyPress={handleKeyPress}
-          placeholder="Search by ID"
-          className="border-2 border-gray-300 p-2 rounded mb-2"
-        />
-        <input
-          type="text"
-          name="cnic"
-          value={searchParams.cnic}
-          onChange={handleInputChange}
-          onKeyPress={handleKeyPress}
-          placeholder="Search by CNIC"
-          className="border-2 border-gray-300 p-2 rounded mb-2"
-        />
-        <input
-          type="text"
-          name="name"
-          value={searchParams.name}
-          onChange={handleInputChange}
-          onKeyPress={handleKeyPress}
-          placeholder="Search by Name"
-          className="border-2 border-gray-300 p-2 rounded"
-        />
-      </div>
-      <button
-        onClick={() => onSearch(searchParams)}
-        className="bg-blue-500 text-white p-2 rounded"
-      >
-        Search
-      </button>
-    </div>
-  );
-};
-
-// Usage example for SearchBar in the main app
-const App = () => {
-  // Handle the search logic
-  const handleSearch = (searchParams) => {
-    const { id, cnic, name } = searchParams;
-    console.log('Searching for user with:', searchParams);
-
-    // Here you would call the backend or filter data based on the input
-    // For example, use getUser(id, cnic, name) to make the search API call
-    // You can modify this part based on your logic, for example:
-    // const result = getUser({ id, cnic, name });
-
-    // For now, we just log the search params
+  const handleCancelDelete = () => {
+    setSelectedUser(null); // Clear the selected user
+    setShowModal(false); // Close the modal
   };
 
   return (
-    <div className="App">
-      <h1 className="text-center text-2xl mb-4">Search Users</h1>
-      <SearchBar onSearch={handleSearch} />
+    <div className="overflow-x-auto p-4">
+      <h2 className="flex justify-center p-4 text-2xl font-bold">User List</h2>
+      <table className="table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>CNIC</th>
+            <th>Created At</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {users.map((user) => (
+            <tr
+              key={user.id}
+              className="hover:bg-gray-200 cursor-pointer"
+              onClick={() => handleRowClick(user)}
+            >
+              <td>{user.id}</td>
+              <td>{user.name}</td>
+              <td>{user.cnic}</td>
+              <td>{user.created_at}</td>
+              <td>
+                <button
+                  onClick={(event) => handleDeleteClick(event, user)}
+                  className="badge badge-error gap-2"
+                >
+                  Delete
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+      {/* Confirmation Modal */}
+      {showModal && (
+        <div className="modal fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50">
+          <div className="modal-content bg-white p-6 rounded shadow-lg">
+            <h3 className="text-xl font-bold mb-4">Confirm Deletion</h3>
+            <p>Are you sure you want to delete user {selectedUser.name}?</p>
+            <div className="flex justify-end mt-4">
+              <button
+                onClick={handleCancelDelete}
+                className="btn btn-secondary mr-2"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleConfirmDelete}
+                className="btn btn-error"
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
 
-export default App;
+export default UserList;
