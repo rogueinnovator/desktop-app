@@ -1,10 +1,10 @@
 import { useEffect, React, useState } from "react";
 import { deleteUser, fetchAllUsers, getUser } from "../apis/user";
 import { Link, useNavigate } from "react-router-dom";
+import Modal from "./Modal";
 const AllUsers = () => {
   const navigate = useNavigate();
   const [selectedUser, setSelectedUser] = useState(null);
-  const [showModal, setShowModal] = useState(false);
   const [isUser, setIsUser] = useState(false);
   const [users, setUsers] = useState([]);
   const [searchParams, setSearchParams] = useState({
@@ -15,7 +15,8 @@ const AllUsers = () => {
   //1.DELETE USER
   const handleDeleteClick = async (e, user) => {
     e.stopPropagation();
-    setShowModal(true);
+    setSelectedUser(user);
+    document.getElementById("my_modal_1").showModal();
   };
   //2.CONFIRM THE USER DELETION
   const handleConfirmDelete = async () => {
@@ -25,8 +26,7 @@ const AllUsers = () => {
   };
   //3.CANCEL LOGIC
   const handleCancelDelete = async () => {
-    selectedUser(null);
-    showModal(false);
+    setSelectedUser(null);
   };
   // TO RETRIEVE ALLUSERS AT RENDER
   useEffect(() => {
@@ -218,25 +218,12 @@ const AllUsers = () => {
           </tbody>
         </table>
       </div>
-      {showModal && (
-        <div className="modal fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50">
-          <div className="modal-content bg-white p-6 rounded shadow-lg">
-            <h3 className="text-xl font-bold mb-4">Confirm Deletion</h3>
-            <p>Are you sure you want to delete user </p>
-            <div className="flex justify-end mt-4">
-              <button
-                onClick={handleCancelDelete}
-                className="btn btn-secondary mr-2"
-              >
-                Cancel
-              </button>
-              <button onClick={handleConfirmDelete} className="btn btn-error">
-                Delete
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+
+      <Modal
+        selectedUser={selectedUser}
+        handleCancelDelete={handleCancelDelete}
+        handleConfirmDelete={handleConfirmDelete}
+      />
     </div>
   );
 };
