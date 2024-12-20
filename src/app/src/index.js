@@ -10,6 +10,7 @@ import AllUsers from "./components/AllUsers";
 import CreateUser from "./components/CreateUser";
 import UserDetails from "./components/UserDetails";
 import Modal from "./components/Modal";
+import PendingDues from "./components/PendingDues";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
@@ -22,6 +23,10 @@ root.render(
         <Route path="/createUser" element={<CreateUser />}></Route>
         <Route path="/userDetails" element={<UserDetails />}></Route>
         <Route path="/modal" element={<Modal />}></Route>
+        <Route
+          path="/pendingDues"
+          element={<PendingDues dues={1000} />}
+        ></Route>
       </Routes>
       <App />
     </BrowserRouter>

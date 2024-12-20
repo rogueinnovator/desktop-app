@@ -65,14 +65,13 @@ const AllUsers = () => {
         } else if (user.length > 0) {
           setIsUser(false);
         }
-        console.log("this is isuser", user);
         setSearchedUser(user);
       } catch (error) {}
     }
   };
 
   return (
-    <div className="pt-6">
+    <div className="pt-6  px-24">
       <div className="flex justify-start pb-3">
         <div className="flex-none px-2">
           <div className="form-control">

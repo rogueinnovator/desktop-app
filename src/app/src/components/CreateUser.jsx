@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { createUser } from "../apis/user";
-
 const CreateUser = () => {
   const [formData, setFormData] = useState({
     name: "",
@@ -110,7 +109,7 @@ const CreateUser = () => {
         </div>
         <div className="flex justify-center">
           {" "}
-          <button className="btn rounded-full" onClick={handleSubmit}>
+          <button className="btn rounded-full" type="submit">
             SAVE
           </button>
         </div>

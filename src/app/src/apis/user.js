@@ -1,19 +1,20 @@
 const electron = window.electron;
 
-export const fetchAllUsers =  () => {
+export const fetchAllUsers = async () => {
   try {
-    const users =  electron.invoke("get-all-users"); // Make an async call to the main process
+    const users = await electron.invoke("get-all-users"); // Make an async call to the main process
     return users;
   } catch (error) {
     console.error("Failed to fetch users:", error);
   }
 };
-
+//create user
 export const createUser = async (formData) => {
   try {
-    const createUser = await electron.invoke("create-user", formData);
-    return createUser;
-  } catch (error) {}
+    return await electron.invoke("create-user", formData);
+  } catch (error) {
+    console.error("Error saving user", error);
+  }
 };
 //Get a single user with
 export const getUser = async (id) => {
